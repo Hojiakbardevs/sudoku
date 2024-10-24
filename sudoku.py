@@ -109,3 +109,17 @@ sudoku = SudokuBoard(_board)
 cell = sudoku.get_vacant_cell()
 new_sudoku = sudoku.put(cell, 1)
 print(new_sudoku)
+
+parallel_universes = [sudoku]
+
+while 1 > 0:
+    this_sudoku = parallel_universes.pop()
+    cell = this_sudoku.get_vacant_cell()
+    if cell is None:
+        print(this_sudoku)
+        break
+    # This is new:
+    values = this_sudoku.get_possible_values(cell)
+    for value in values:
+        new_parallel_sudoku = this_sudoku.put(cell, value)
+        parallel_universes.append(new_parallel_sudoku)
