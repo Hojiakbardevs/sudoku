@@ -11,7 +11,10 @@ class SudokuSolverApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Sudoku Solver")
-        
+
+        self.result_label = tk.Label(self.root, text="", fg="green", font=("Arial", 14))
+        self.result_label.grid(row=10, column=0, columnspan=9)
+
         self.board = [
             [5, 3, None, None, 7, None, None, None, None],
             [6, None, None, 1, 9, 5, None, None, None],
@@ -23,7 +26,7 @@ class SudokuSolverApp:
             [None, None, None, 4, 1, 9, None, None, 5],
             [None, None, None, None, 8, None, None, 7, 9],
         ]
-        
+
         self.entries = []
         self.create_grid()
 
@@ -43,11 +46,12 @@ class SudokuSolverApp:
             self.entries.append(entry_row)
 
     def solve(self):
-        """Sudoku yechish funksiyasi"""
+        """Sudoku ni yechish va natija qaytarish"""
         if self.solve_sudoku():
             self.update_grid()
+            self.show_result(success=True)
         else:
-            messagebox.showerror("Error", "Sudoku yechimi mavjud emas!")
+            self.show_result(success=False)
 
     def solve_sudoku(self):
         """Bu yerda sizning sudoku yechish algoritmingiz ishlaydi"""
@@ -91,6 +95,13 @@ class SudokuSolverApp:
             for col in range(9):
                 self.entries[row][col].delete(0, tk.END)
                 self.entries[row][col].insert(0, str(self.board[row][col]))
+
+    def show_result(self, success):
+        """Yechim natijasini ko'rsatish"""
+        if success:
+            self.result_label.config(text="Sudoku to'g'ri yechildi!", fg="green")
+        else:
+            self.result_label.config(text="Sudoku yechilolmadi!", fg="red")
 
 if __name__ == "__main__":
     root = tk.Tk()
